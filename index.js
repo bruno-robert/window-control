@@ -6,7 +6,7 @@ const focusWindow = (pid, callback) => {
   const emptyCallBack = () => {}
   callback = callback || emptyCallBack
   if ( process.platform === 'darwin' ) {
-    exec(`osascript "${setWindowFocus}" ${windowName}`, (error, stdout, stderr) => {
+    exec(`osascript "${focusWindowMacScript}" ${pid}`, (error, stdout, stderr) => {
       if (error) {
         callback(error, null)
         return
