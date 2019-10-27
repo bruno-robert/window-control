@@ -168,3 +168,4 @@ $RECYCLE.BIN/
 
 # visual studio code wordspace files
 *.code-workspace
+.idea/
