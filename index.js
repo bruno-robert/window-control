@@ -56,12 +56,12 @@ const sendKeysAndEnter = (pid, keys, callback) => {
   }
 }
 
-const getSCriptPath = () => {
+const getScriptPath = () => {
   return path.join(__dirname, 'mac', 'focusAndSendKeysAndEnter.applescript')
 }
 
 module.exports = {
   focusWindow: focusWindow,
   sendKeysAndEnter: sendKeysAndEnter,
-  getSCriptPath: getSCriptPath
+  getScriptPath: getScriptPath
 }
