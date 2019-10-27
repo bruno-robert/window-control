@@ -34,7 +34,7 @@ const sendKeysAndEnter = (pid, keys, callback) => {
   const emptyCallBack = () => {}
   callback = callback || emptyCallBack
   if ( process.platform === 'darwin' ) {
-    exec(`osascript "${focusAndSendKeys}" ${pid} ${keys}`, (error, stdout, stderr) => {
+    exec(`osascript "${focusAndSendKeys}" ${pid} "${keys}"`, (error, stdout, stderr) => {
       if (error) {
         callback(error, null)
         return
