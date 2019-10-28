@@ -1,7 +1,7 @@
 const path = require('path')
 const { exec } = require('child_process')
 const focusWindowMacScript = path.join(__dirname, 'mac', 'setWindowFocus.applescript')
-const focusAndSendKeys = path.join(__dirname, 'mac', 'focusAndSendKeysAndEnter.applescript')
+const focusAndSendKeys = path.join(process.cwd(), 'mac', 'focusAndSendKeysAndEnter.applescript')
 
 const focusWindow = (pid, callback) => {
   const emptyCallBack = () => {}
