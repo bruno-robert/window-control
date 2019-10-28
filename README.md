@@ -9,7 +9,7 @@ osascript cannot run .applescript files from the app.asar archive, so the module
 In order to simplify this to the maximum. In this guide we will be using electron-builder to package the app.
 In order to exclude window-control from the app.asar archive just include the following in the top level of package.json
 
-```
+```JSON
 "build": {
     "asar": true,
     "asarUnpack": "node_modules/window-control/**/*"
