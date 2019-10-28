@@ -6,6 +6,11 @@ const { exec } = require('child_process')
 const focusWindowMacScript = path.join(__dirname, 'mac', 'setWindowFocus.applescript')
 const focusAndSendKeys = path.join(__dirname, 'mac', 'focusAndSendKeysAndEnter.applescript')
 
+/**
+ * Focuses the first window of the process with the PID given
+ * @param {integer} pid PID to use to find the application window
+ * @param {function} callback callback, get error and message as parameters
+ */
 const focusWindow = (pid, callback) => {
   const emptyCallBack = () => {}
   callback = callback || emptyCallBack
