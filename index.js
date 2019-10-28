@@ -33,6 +33,12 @@ const focusWindow = (pid, callback) => {
   
 }
 
+/**
+ * Depreciated, use sendKeys() instead
+ * @param {*} pid 
+ * @param {*} keys 
+ * @param {*} callback 
+ */
 const sendKeysAndEnter = (pid, keys, callback) => {
   const emptyCallBack = () => {}
   callback = callback || emptyCallBack
@@ -65,7 +71,10 @@ const sendKeysAndEnter = (pid, keys, callback) => {
  * Optionally has a callback that gets (error, message) parameters for the error message (if any) and any output of the script
  * @param {integer} pid PID of the pcoess to focus
  * @param {string} keys string to send to the window
- * @param {*} [param2] optional parameters (resetFocus: if set to true, will reset the focus to the original focus after sending the keys, callback: the callback to use once done)
+ * @param {*} [param2] optional parameters:
+ *  - resetFocus: (default false) if set to true, will reset the focus to the original focus after sending the keys
+ *  - pressEnterOnceDone: (default true) if set to true, will press enter once the keys have been sent
+ *  - callback: (default ()=>{}) the callback to use once done
  */
 const sendKeys = (pid, keys, {resetFocus = false, pressEnterOnceDone = true, callback = ()=>{}} = {}) => {
   if ( process.platform === 'darwin' ) {
