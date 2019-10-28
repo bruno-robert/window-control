@@ -15,12 +15,12 @@ In order to exclude window-control from the app.asar archive just include the fo
     "asarUnpack": "node_modules/window-control/**/*"
 }
  ```
- 
- # example usage
- 
- ```javascript
+
+## example usage
+
+```javascript
  const {focusWindow, sendKeys} = require('window-control')
- 
+
  // resetFocus is an optional parameter that will reset the focus 
  // to the original window once the keys have been sent
  // sendKeys will send key presses to the application with the PID
@@ -29,8 +29,8 @@ In order to exclude window-control from the app.asar archive just include the fo
     console.log(error)
     console.log(message)
  }})
- 
- 
+
+
  // focusWindow will set the focus the to window owned by the PID given (in this case 2212)
  focusWindow(2212, (error, message) => {
     console.log(error)
