@@ -66,8 +66,19 @@ const sendKeys = (pid, keys, {resetFocus = false, pressEnterOnceDone = true, cal
   } else if ( process.platform === 'win32' ) {
     // TODO: add windows support
     callback('Windows isn\'t supported yet', null)
-  } else if ( process.platform === 'win3linux2' ) {
-    // TODO: add Linux support
+  } else if ( process.platform === 'linux' ) {
+    const sendTextToWindowWithId = path.join(__dirname, 'linux', 'sendTextToWindowWithId.sh')
+    exec(`${sendTextToWindowWithId} ${pid} ${keys}`, (error, stdout, stderr) => {
+      if (error) {
+        callback(error, null)
+        return
+      }
+      if (stderr) {
+        callback(stderr, null)
+        return
+      }
+      callback(null, windowList)
+    })
     callback('Linux isn\'t supported yet', null)
   } else {
     callback('Platform not suported', null)
@@ -115,7 +126,7 @@ const getWindowList = (callback) => {
       callback(null, windowList)
     })
   } else {
-    console.log('platform not supported yet')
+    ccallback('platform not supported yet', null)
   }
 }
 
