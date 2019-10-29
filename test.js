@@ -23,7 +23,15 @@ const getWindowList = (callback) => {
         callback(stderr, null)
         return
       }
-      callback(null, stdout)
+      windowStrings = stdout.split('\n')
+      windowList = []
+
+      windowStrings.forEach((windowString) => {
+        let windowTitle = windowString.split(' ').slice(4).join(' ')
+        windowObject = {id: windowString.split(' ')[0], user: windowString.split(' ')[3], title: windowTitle}
+        windowList.push(windowObject)
+      })
+      callback(null, windowList)
     })
   } else {
     console.log('platform not supported yet')

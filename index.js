@@ -98,5 +98,6 @@ const getWindowList = () => {
 module.exports = {
   focusWindow: focusWindow,
   sendKeys: sendKeys,
-  getProcessList: getProcessList
+  getProcessList: getProcessList,
+  getWindowList: getWindowList
 }
