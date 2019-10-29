@@ -84,6 +84,17 @@ const getProcessList = async (callback) => {
   callback(processList)
 }
 
+const getWindowList = () => {
+  if (process.platform === 'linux') {
+    const linuxGetWindowList = path.join(__dirname, 'linux', 'getWindowList.sh')
+    exec(linuxGetWindowList, (error, stdout, stderr) => {
+      
+    })
+  } else {
+    console.log('platform not supported yet')
+  }
+}
+
 module.exports = {
   focusWindow: focusWindow,
   sendKeys: sendKeys,
