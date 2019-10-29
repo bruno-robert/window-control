@@ -68,7 +68,7 @@ const sendKeys = (pid, keys, {resetFocus = false, pressEnterOnceDone = true, cal
     callback('Windows isn\'t supported yet', null)
   } else if ( process.platform === 'linux' ) {
     const sendTextToWindowWithId = path.join(__dirname, 'linux', 'sendTextToWindowWithId.sh')
-    exec(`${sendTextToWindowWithId} ${pid} ${keys}`, (error, stdout, stderr) => {
+    exec(`${sendTextToWindowWithId} ${pid} '${keys}'`, (error, stdout, stderr) => {
       if (error) {
         callback(error, null)
         return

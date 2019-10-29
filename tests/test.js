@@ -10,8 +10,9 @@ const index = require('./../index')
 //   console.log(pslist)
 // })
 
-index.getWindowList((error, windowList) => {
-  console.log(error)
-  console.log(windowList)
-})
+// index.getWindowList((error, windowList) => {
+//   console.log(error)
+//   console.log(windowList)
+// })
 
+index.sendKeys('0x0420000a', 'echo "hello world"')
