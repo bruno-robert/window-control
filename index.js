@@ -29,7 +29,7 @@ const focusWindow = (pid, callback) => {
   } else if ( process.platform === 'win32' ) {
     // TODO: add windows support
     callback('Windows isn\'t supported yet', null)
-  } else if ( process.platform === 'win3linux2' ) {
+  } else if ( process.platform === 'linux' ) {
     // TODO: add Linux support
     callback('Linux isn\'t supported yet', null)
   } else {
@@ -39,7 +39,7 @@ const focusWindow = (pid, callback) => {
 }
 
 /**
- * Depreciated, use sendKeys() instead
+ * Deprecated, use sendKeys() instead
  * @param {*} pid 
  * @param {*} keys 
  * @param {*} callback 
@@ -62,7 +62,7 @@ const sendKeysAndEnter = (pid, keys, callback) => {
   } else if ( process.platform === 'win32' ) {
     // TODO: add windows support
     callback('Windows isn\'t supported yet', null)
-  } else if ( process.platform === 'win3linux2' ) {
+  } else if ( process.platform === 'linux' ) {
     // TODO: add Linux support
     callback('Linux isn\'t supported yet', null)
   } else {
