@@ -39,38 +39,6 @@ const focusWindow = (pid, callback) => {
 }
 
 /**
- * Deprecated, use sendKeys() instead
- * @param {*} pid 
- * @param {*} keys 
- * @param {*} callback 
- */
-const sendKeysAndEnter = (pid, keys, callback) => {
-  const emptyCallBack = () => {}
-  callback = callback || emptyCallBack
-  if ( process.platform === 'darwin' ) {
-    exec(`osascript "${focusAndSendKeys}" ${pid} '${keys}' false`, (error, stdout, stderr) => {
-      if (error) {
-        callback(error, null)
-        return
-      }
-      if (stderr) {
-        callback(stderr, null)
-        return
-      }
-      callback(null, stdout)
-    })
-  } else if ( process.platform === 'win32' ) {
-    // TODO: add windows support
-    callback('Windows isn\'t supported yet', null)
-  } else if ( process.platform === 'linux' ) {
-    // TODO: add Linux support
-    callback('Linux isn\'t supported yet', null)
-  } else {
-    callback('Platform not suported', null)
-  }
-}
-
-/**
  * Focuses the first window of the PID given, then sends the cahracters in the keys string to the focused window by emulating the keyboard. 
  * Optionally, can focus back to the original application.
  * Optionally has a callback that gets (error, message) parameters for the error message (if any) and any output of the script
@@ -107,6 +75,5 @@ const sendKeys = (pid, keys, {resetFocus = false, pressEnterOnceDone = true, cal
 
 module.exports = {
   focusWindow: focusWindow,
-  sendKeysAndEnter: sendKeysAndEnter,
   sendKeys: sendKeys
 }
