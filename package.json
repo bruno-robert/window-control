@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/uranium78/window-control#readme",
   "dependencies": {
-    "hazardous": "^0.3.0"
+    "hazardous": "^0.3.0",
+    "ps-list": "^6.3.0"
   }
 }

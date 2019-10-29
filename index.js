@@ -5,6 +5,7 @@ const path = require('path')
 const { exec } = require('child_process')
 const focusWindowMacScript = path.join(__dirname, 'mac', 'setWindowFocus.applescript')
 const focusAndSendKeys = path.join(__dirname, 'mac', 'focusAndSendKeysAndEnter.applescript')
+const psList = require('ps-list')
 
 /**
  * Focuses the first window of the process with the PID given
@@ -73,7 +74,18 @@ const sendKeys = (pid, keys, {resetFocus = false, pressEnterOnceDone = true, cal
   }
 }
 
+/**
+ * Gets and returns the current process list
+ * Works on Mac, Windows and Linux.
+ * Works when packaged in app.asar on Mac and Linux but NOT Windows
+ */
+const getProcessList = async () => {
+  const processList = await psList()
+  return processList
+}
+
 module.exports = {
   focusWindow: focusWindow,
-  sendKeys: sendKeys
+  sendKeys: sendKeys,
+  getProcessList: getProcessList
 }
