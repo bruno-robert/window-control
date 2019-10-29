@@ -77,7 +77,7 @@ const sendKeys = (pid, keys, {resetFocus = false, pressEnterOnceDone = true, cal
         callback(stderr, null)
         return
       }
-      callback(null, windowList)
+      callback(null, stdout)
     })
     callback('Linux isn\'t supported yet', null)
   } else {
