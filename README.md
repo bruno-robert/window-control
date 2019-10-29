@@ -61,7 +61,7 @@ Sends ```keys``` to the window as keyboard input.
 
 #### Parameters
 
-- ```pid```: (integer) the windowID or PID of the app to send the keys to 
+- ```pid```: (integer) the windowID (Linux and Windows) or PID (MacOS) of the app to send the keys to 
 
 - ```keys```: (string) keys to send
 

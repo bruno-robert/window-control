@@ -43,7 +43,7 @@ const focusWindow = (pid, callback) => {
  * Focuses the first window of the PID given, then sends the cahracters in the keys string to the focused window by emulating the keyboard. 
  * Optionally, can focus back to the original application.
  * Optionally has a callback that gets (error, message) parameters for the error message (if any) and any output of the script
- * @param {integer} pid PID of the pcoess to focus
+ * @param {integer} pid PID of the pcoess to focus, or on linux and windows this would be the windowID
  * @param {string} keys string to send to the window
  * @param {*} [param2] optional parameters:
  *  - resetFocus: (default false) if set to true, will reset the focus to the original focus after sending the keys
