@@ -79,9 +79,9 @@ const sendKeys = (pid, keys, {resetFocus = false, pressEnterOnceDone = true, cal
  * Works on Mac, Windows and Linux.
  * Works when packaged in app.asar on Mac and Linux but NOT Windows
  */
-const getProcessList = async () => {
+const getProcessList = async (callback) => {
   const processList = await psList()
-  return processList
+  callback(processList)
 }
 
 module.exports = {
