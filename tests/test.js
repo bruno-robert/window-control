@@ -1,18 +1,12 @@
 const index = require('./../index')
 
 
-// // make sure to enter a valid pid
-// index.sendKeys(23561, 'echo "hello"', {resetFocus: true, pressEnterOnceDone: false, callback: (e, m) => {
-//   console.log(`error: ${e}\nmessage: ${m}`)
-// }})
+index.getWindowList().then(windowList => {
+  console.log(windowList)
+})
 
-// index.getProcessList((pslist) => {
-//   console.log(pslist)
-// })
-
-// index.getWindowList((error, windowList) => {
-//   console.log(error)
-//   console.log(windowList)
-// })
-
-index.sendKeys('0x0420000a', 'echo "hello world"')
+// make sure to enter a valid pid
+index.sendKeys(1081608, 'echo "hello"', {resetFocus: true})
+.then(message => {
+  console.log(message)
+})

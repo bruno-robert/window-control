@@ -1,6 +1,7 @@
 // const index = require('./../index')
 const path = require('path')
 const { exec } = require('child_process')
+const JSON5 = require('json5')
 
 // // make sure to enter a valid pid
 // index.sendKeys(23561, 'echo "hello"', {resetFocus: true, pressEnterOnceDone: false, callback: (e, m) => {
@@ -12,34 +13,28 @@ const { exec } = require('child_process')
 // })
 
 const getWindowList = (callback) => {
-  if (process.platform === 'linux') {
-    const linuxGetWindowList = path.join(__dirname, 'linux', 'getWindowList.sh')
-    exec(linuxGetWindowList, (error, stdout, stderr) => {
+  return new Promise((resolve, reject) => {
+    const getWindowList = path.join(__dirname, 'mac', 'getWindowList.applescript')
+    exec(`osascript '${getWindowList}'`, (error, stdout, stderr) => {
       if (error) {
-        callback(error, null)
-        return
+        reject(error)
       }
       if (stderr) {
-        callback(stderr, null)
-        return
+        let winList = JSON5.parse(stderr).data
+        resolve(winList)
+      } else {
+        let winList = JSON5.parse(stdout).data
+        resolve(winList)
       }
-      windowStrings = stdout.split('\n')
-      windowList = []
-
-      windowStrings.forEach((windowString) => {
-        let windowTitle = windowString.split(' ').slice(4).join(' ')
-        windowObject = {id: windowString.split(' ')[0], user: windowString.split(' ')[3], title: windowTitle}
-        windowList.push(windowObject)
-      })
-      callback(null, windowList)
     })
-  } else {
-    console.log('platform not supported yet')
-  }
+  })
+  
+
 }
 
-getWindowList((error, windowList) => {
-  console.log(error)
+getWindowList().then(windowList => {
   console.log(windowList)
+}).catch(error => {
+  console.log(error)
 })
 

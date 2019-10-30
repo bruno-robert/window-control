@@ -55,7 +55,7 @@ In order to exclude window-control from the app.asar archive just include the fo
 
 ### sendKeys
 
-```sendKeys(pid, keys, {resetFocus = false, pressEnterOnceDone = true, callback = ()=>{}} = {})```
+```sendKeys(pid, keys, {resetFocus = false, pressEnterOnceDone = true} = {})```
 
 Sends ```keys``` to the window as keyboard input.
 
@@ -69,8 +69,6 @@ Sends ```keys``` to the window as keyboard input.
 
 - ```pressEnterOnceDone```: (optional bool) if set to true, the enter key will be pressed once the keys are sent
 
-- ```callback```: (optional function) the callback to use, will get the following parameters (```error```, ```output```) containing any error message or output of the executable used (this changes depending onthe platform)
-
 ### focusWindow
 
 ```focusWindow(pid, callback)```
@@ -83,42 +81,30 @@ Sets the focus to the window with ```pid```
 
 - ```callback```: (optional function) the callback to use, will get the following parameters (```error```, ```output```) containing any error message or output of the executable used (this changes depending onthe platform)
 
-### getProcessList
+#### Return ```Promise```
 
-```getProcessList(callback)```
-
-On MacOS, gets the list of active processes.
-
-#### Parameters
-
-- ```callback```: (function) callback with the following parameter ```processList```, an array of process objects. Each object has the following attributes:
-
-  - ```pid```: process PID
-
-  - ```name```: process name
-
-  - ```cmd```: process command
-
-  - ```ppid```: process PPID
-
-  - ```uid```: process UID
-
-  - ```cpu```: process CPU utilisation
-
-  - ```memory```: process memory usage
+(string) output message
 
 ### getWindowList
 
-```getWindowList(callback)```
+```getWindowList()```
 
 Gets a list of windows open.
 
-#### Parameters
+#### Return ```Promise```
 
-- ```callback```: (function) callback with the following parameter ```windowList```, an array of window objects. Each object has the following attributes:
+The returned object will vary depending on the OS
 
-  - ```id```: windowID of the window
-  
-  - ```user```: user whos owns the process behind the window
+On Linux each object has a id, user and title attributes
 
-  - ```title```: title of the window
+- id is the window id (linux)
+- user is the user that owns the process running the window (linux)
+- title is the title of the window
+
+On mac, the object will contain
+
+- processName is the name of the process owning the windows
+- id identifier of the process
+- windows[] and array of strings for the title of each window this process owns
+
+In all cases, the ID can be used in sendKeys()

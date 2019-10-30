@@ -1,7 +1,7 @@
 on run argv
 	set old to (path to frontmost application as text)
 	tell application "System Events"
-		set theprocs to every process whose unix id is item 1 of argv
+		set theprocs to every process whose id is item 1 of argv
 		repeat with proc in theprocs
 			set the frontmost of proc to true
 		end repeat
