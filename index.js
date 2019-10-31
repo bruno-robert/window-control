@@ -4,6 +4,15 @@ const path = require('path')
 const { exec } = require('child_process')
 const JSON5 = require('json5')
 
+// The paths are defined here so that hazardous can work it's magic on the paths
+const macFocusWindow = path.join(__dirname, 'mac', 'setWindowFocus.applescript')
+
+const sendTextToWindowWithId = path.join(__dirname, 'linux', 'sendTextToWindowWithId.sh')
+const macFocusAndSendKeys = path.join(__dirname, 'mac', 'focusAndSendKeysAndEnter.applescript')
+
+const linuxGetWindowList = path.join(__dirname, 'linux', 'getWindowList.sh')
+const macGetWindowList = path.join(__dirname, 'mac', 'getWindowList.applescript')
+
 /**
  * Focuses the first window of the process with the PID given
  * @param {integer} id PID to use to find the application window
@@ -13,8 +22,7 @@ const focusWindow = (id, callback) => {
   const emptyCallBack = () => {}
   callback = callback || emptyCallBack
   if ( process.platform === 'darwin' ) {
-    const focusWindowMacScript = path.join(__dirname, 'mac', 'setWindowFocus.applescript')
-    exec(`osascript "${focusWindowMacScript}" ${id}`, (error, stdout, stderr) => {
+    exec(`osascript "${macFocusWindow}" ${id}`, (error, stdout, stderr) => {
       if (error) {
         callback(error, null)
         return
@@ -52,8 +60,7 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
   let execPromise = new Promise((resolve, reject) => {
 
     if ( process.platform === 'darwin' ) {
-      const focusAndSendKeys = path.join(__dirname, 'mac', 'focusAndSendKeysAndEnter.applescript')
-      exec(`osascript "${focusAndSendKeys}" ${id} '${keys}' ${resetFocus} ${pressEnterOnceDone}`, (error, stdout, stderr) => {
+      exec(`osascript "${macFocusAndSendKeys}" ${id} '${keys}' ${resetFocus} ${pressEnterOnceDone}`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
         resolve(stdout)
@@ -67,8 +74,6 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
       // TODO: add option to reset focus on linux
       // TODO: add option to not press enter once keys have been sent
       const windowID = id // although the function calls it pid, iin this case it's a windowID
-      const sendTextToWindowWithId = path.join(__dirname, 'linux', 'sendTextToWindowWithId.sh')
-
       exec(`${sendTextToWindowWithId} ${windowID} '${keys}'`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
@@ -103,7 +108,6 @@ const getWindowList = () => {
 
     // Linux
     if (process.platform === 'linux') {
-      const linuxGetWindowList = path.join(__dirname, 'linux', 'getWindowList.sh')
       exec(linuxGetWindowList, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
@@ -120,16 +124,22 @@ const getWindowList = () => {
 
     // MacOS
     } else if (process.platform === 'darwin'){
-      const getWindowList = path.join(__dirname, 'mac', 'getWindowList.applescript')
-      exec(`osascript '${getWindowList}'`, (error, stdout, stderr) => {
+      exec(`osascript '${macGetWindowList}'`, (error, stdout, stderr) => {
         if (error) {
           reject(error)
         }
         if (stderr) {
           // in this case, the script outputs to stderr for some reason
           // so any stderr isn't an error
-          let winList = JSON5.parse(stderr).data
-          resolve(winList)
+          // We check if the first character is "{", if it isn't
+          // then it's an error message
+          if (stderr.charAt(0) !== '{') {
+            reject(stderr)
+          } else {
+            let winList = JSON5.parse(stderr).data
+            resolve(winList)
+          }
+
         } else {
           let winList = JSON5.parse(stdout).data
           resolve(winList)
