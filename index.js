@@ -70,7 +70,11 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
 
     } else if ( process.platform === 'win32' ) {
       // TODO: add windows support
-      reject('Windows isn\'t supported yet')
+      exec(`${macFocusAndSendKeys} "${id}" "${keys}"`, (error, stdout, stderr) => {
+        if (error) reject(error)
+        if (stderr) reject(stderr)
+        resolve(stdout)
+      })
       
     } else if ( process.platform === 'linux' ) {
       // TODO: add option to reset focus on linux
