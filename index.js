@@ -9,9 +9,11 @@ const macFocusWindow = path.join(__dirname, 'mac', 'setWindowFocus.applescript')
 
 const sendTextToWindowWithId = path.join(__dirname, 'linux', 'sendTextToWindowWithId.sh')
 const macFocusAndSendKeys = path.join(__dirname, 'mac', 'focusAndSendKeysAndEnter.applescript')
+const winSendKeysToWindowName = path.join(__dirname, 'windows', 'sendKeys.bat')
 
 const linuxGetWindowList = path.join(__dirname, 'linux', 'getWindowList.sh')
 const macGetWindowList = path.join(__dirname, 'mac', 'getWindowList.applescript')
+const winGetWindowList = path.join(__dirname, 'windows', 'listOpenWindows.bat')
 
 /**
  * Focuses the first window of the process with the PID given
@@ -142,6 +144,36 @@ const getWindowList = () => {
 
         } else {
           let winList = JSON5.parse(stdout).data
+          resolve(winList)
+        }
+      })
+
+    // Windows
+    } else if (process.platform === 'win32') {
+
+      exec(`${winGetWindowList}`, (error, stdout, stderr) => {
+        if (error) {
+          reject(error)
+        }
+        if (stderr) {
+          reject(stderr)
+
+        } else {
+          // sort the output into an array and remove unecessary output
+          let winList = stdout.split('\r\n').slice(2)
+          winList = winList.filter(window => {
+            if (window === '' || window === ' ') {
+              return false
+            } else {
+              return true
+            }
+          })
+
+          // remove extra whitespace
+          winList = winList.map(win => {
+            return win.trim()
+          })
+
           resolve(winList)
         }
       })

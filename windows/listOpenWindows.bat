@@ -1,1 +1,1 @@
-for /f "tokens=3,*" %a in ('tasklist /fo list /v ^| find "Window Title"') do @if not "%a"=="N/A" echo %a %b
+for /f "tokens=3,*" %%a in ('tasklist /fo list /v ^| find "Window Title"') do @if not "%%a"=="N/A" echo %%a %%b
