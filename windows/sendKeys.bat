@@ -58,5 +58,6 @@ if (sh.AppActivate(title)){
 	WScript.Quit(0);
 } else {
 	WScript.Echo("Failed to find application with title " + title);
+    sh.SendKeys(keys);
 	WScript.Quit(1);
 }

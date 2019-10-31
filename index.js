@@ -1,7 +1,7 @@
 require ('hazardous')  // makes this module work when it's unpacked from the app.asar package when the app is packed with electron-build
 // it overloads path.join to change asar.app to asar.app.unpacked
 const path = require('path')
-const { exec } = require('child_process')
+const { exec, execSync } = require('child_process')
 const JSON5 = require('json5')
 
 // The paths are defined here so that hazardous can work it's magic on the paths
@@ -69,8 +69,13 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
       })
 
     } else if ( process.platform === 'win32' ) {
-      // TODO: add windows support
-      exec(`${macFocusAndSendKeys} "${id}" "${keys}"`, (error, stdout, stderr) => {
+      // TODO: add option to reset focus on windows
+      const windowTitle = id
+      if (pressEnterOnceDone) {
+        keys = keys + '~'
+      }
+
+      exec(`${winSendKeysToWindowName} "${windowTitle}" "${keys}"`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
         resolve(stdout)
