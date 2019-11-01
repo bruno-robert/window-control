@@ -61,7 +61,7 @@ Sends ```keys``` to the window as keyboard input.
 
 #### Parameters
 
-- ```pid```: (integer) the windowID (Linux and Windows) or PID (MacOS) of the app to send the keys to 
+- ```pid```: (integer) the windowID (Linux), PID (MacOS) or Window Title (Windows) of the app to send the keys to 
 
 - ```keys```: (string) keys to send
 
@@ -73,7 +73,7 @@ Sends ```keys``` to the window as keyboard input.
 
 ```focusWindow(pid, callback)```
 
-Sets the focus to the window with ```pid```
+Sets the focus to the window with ```pid``` (only works on MacOS)
 
 #### Parameters
 
@@ -107,4 +107,7 @@ On mac, the object will contain
 - id identifier of the process
 - windows[] and array of strings for the title of each window this process owns
 
-In all cases, the ID can be used in sendKeys()
+On Windows, the oject will be an array of window titles
+["window title 1", "window title 2", ...]
+
+In all cases, the ID can be used in sendKeys(). On windows, use a window title as an ID.
