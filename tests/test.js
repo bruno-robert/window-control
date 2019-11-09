@@ -8,7 +8,7 @@ const index = require('./../index')
 // })
 
 // make sure to enter a valid pid
-index.sendKeys("Command Prompt", 'dir', {resetFocus: true})
+index.sendKeys(1061123, 'ls -l', {resetFocus: true})
 .then(message => {
   console.log(message)
 }).catch(err => {
