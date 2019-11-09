@@ -60,9 +60,10 @@ const focusWindow = (id, callback) => {
  */
 const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}) => {
   let execPromise = new Promise((resolve, reject) => {
+    keys = keys.replace('"', '\\"')
 
     if ( process.platform === 'darwin' ) {
-      exec(`osascript "${macFocusAndSendKeys}" ${id} '${keys}' ${resetFocus} ${pressEnterOnceDone}`, (error, stdout, stderr) => {
+      exec(`osascript "${macFocusAndSendKeys}" ${id} "${keys}" ${resetFocus} ${pressEnterOnceDone}`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
         resolve(stdout)
@@ -85,7 +86,7 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
       // TODO: add option to reset focus on linux
       // TODO: add option to not press enter once keys have been sent
       const windowID = id // although the function calls it pid, iin this case it's a windowID
-      exec(`${sendTextToWindowWithId} ${windowID} '${keys}'`, (error, stdout, stderr) => {
+      exec(`${sendTextToWindowWithId} ${windowID} "${keys}"`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
         resolve(stdout)
