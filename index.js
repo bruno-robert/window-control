@@ -15,6 +15,12 @@ const linuxGetWindowList = path.join(__dirname, 'linux', 'getWindowList.sh')
 const macGetWindowList = path.join(__dirname, 'mac', 'getWindowList.applescript')
 const winGetWindowList = path.join(__dirname, 'windows', 'listOpenWindows.bat')
 
+const sanitiseUserInput = (input) => {
+  let newInput = (' ' + input).slice(1)
+  newInput = newInput.replaceAll("'", "");
+  return newInput
+}
+
 /**
  * Focuses the first window of the process with the PID given
  * @param {integer} id PID to use to find the application window
@@ -63,7 +69,7 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
     keys = keys.replace('"', '\\"')
 
     if ( process.platform === 'darwin' ) {
-      exec(`osascript "${macFocusAndSendKeys}" ${id} "${keys}" ${resetFocus} ${pressEnterOnceDone}`, (error, stdout, stderr) => {
+      exec(`osascript "${macFocusAndSendKeys}" '${sanitiseUserInput(id)}' '${sanitiseUserInput(keys)}' ${resetFocus} ${pressEnterOnceDone}`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
         resolve(stdout)
@@ -76,7 +82,7 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
         keys = keys + '~'
       }
 
-      exec(`${winSendKeysToWindowName} "${windowTitle}" "${keys}"`, (error, stdout, stderr) => {
+      exec(`${winSendKeysToWindowName} '${sanitiseUserInput(windowTitle)}' '${sanitiseUserInput(keys)}'`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
         resolve(stdout)
@@ -86,7 +92,7 @@ const sendKeys = (id, keys, {resetFocus = false, pressEnterOnceDone = true} = {}
       // TODO: add option to reset focus on linux
       // TODO: add option to not press enter once keys have been sent
       const windowID = id // although the function calls it pid, iin this case it's a windowID
-      exec(`${sendTextToWindowWithId} ${windowID} "${keys}"`, (error, stdout, stderr) => {
+      exec(`${sendTextToWindowWithId} '${sanitiseUserInput(windowID)}' '${sanitiseUserInput(keys)}'`, (error, stdout, stderr) => {
         if (error) reject(error)
         if (stderr) reject(stderr)
         resolve(stdout)
